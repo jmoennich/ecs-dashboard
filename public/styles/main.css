@@ -1,0 +1,97 @@
+@font-face {
+    font-family: 'DINMedium';
+    src: url('../fonts/DINMedium.eot');
+    src: local('DINMedium'), url('../fonts/DINMedium.woff') format('woff'), url('../fonts/DINMedium.ttf') format('truetype');
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height:100%;
+    color: #5D5E62;
+    background-color: #E8EBEB;
+    font-family: DINMedium, sans-serif;
+    font-size: 17px;
+    line-height: 1.42857;
+}
+
+a {
+    color: #5D5E62;
+}
+
+.ng-hide {
+    display: none;
+}
+
+.small {
+    font-size: 14px;
+}
+
+.left {
+    float: left;
+}
+
+.box {
+    background-color: #FDFDFD;
+    border-radius: 5px;
+    max-height: 100%;
+    overflow: hidden;
+    margin: 10px 0 10px 10px;
+}
+
+.box h3 {
+    margin:0;
+}
+
+.box.instance {
+    padding:5px;
+    width: 350px;
+    height: 450px;
+}
+
+.cpu {
+    width:350px;
+    height:150px;
+}
+
+.task {
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.task.red {
+    color: #FC6163;
+}
+
+.task.blue {
+    color: #3DC2FF;
+}
+
+.task.green {
+    color: #fff;
+    background-color: #40BA4F;
+}
+
+.task.orange {
+    color: #FB964D;
+}
+
+.container {
+    color: #5D5E62;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.container-info {
+    background: url(../images/docker-bw-tiny.png) 5px 5px no-repeat;
+    padding-left: 40px;
+}
+
+.loading {
+    min-height: 16px;
+    min-width: 16px;
+    background: url(../images/ajax-loader.gif) center no-repeat;
+}

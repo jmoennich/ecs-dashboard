@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body ng-app="ecs-dashboard" ng-controller="dashboard" ng-strict-di ng-class="{loading: loading}">
+
+<div class="cluster ng-hide" ng-show="instances.length">
+    <div class="box instance left" ng-repeat="instance in instances track by instance.ecs.containerInstanceArn">
+
+        <h3>EC2 Instance</h3>
+        <a class="small" target="_blank"
+           ng-href="http://{{instance.ec2.PublicDnsName}}"
+           ng-bind="instance.ec2.PublicDnsName"></a>
+        <span ng-bind="instance.ec2.InstanceType"></span>
+        <span ng-bind-template="${{ prices[instance.ec2.InstanceType] }}/h"></span>
+        <canvas class="cpu" cpu-data="instance.cpu"></canvas>
+
+        <h3>ECS Tasks</h3>
+        <div class="task"
+             ng-class="{green: task.lastStatus=='RUNNING', orange: task.lastStatus=='PENDING', red: task.lastStatus=='STOPPED'}"
+             ng-repeat="task in instance.tasks track by task.taskArn">
+            <div class="container" ng-repeat="container in task.containers track by container.containerArn">
+                <div class="container-info">
+                    <span ng-bind="container.name"></span>
+                    <div class="network-binding" ng-repeat="binding in container.networkBindings">
+                        <span ng-bind="binding.containerPort"></span>:<span ng-bind="binding.hostPort"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.1/angular.min.js"></script>
+<!-- build:js js/app.js -->
+<script src="scripts/app.js"></script>
+<script src="scripts/oauth.js"></script>
+<script src="scripts/directives.js"></script>
+<script src="scripts/dashboard.js"></script>
+<!-- endbuild -->
+</body>
+</html>
