@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1.36",
+    "body-parser": "^1.13.2",
     "compression": "^1.5.1",
     "express": "^4.13.1",
     "express-jwt": "^3.0.1",
