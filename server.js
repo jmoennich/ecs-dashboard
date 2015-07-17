@@ -1,5 +1,7 @@
 var production = process.env.NODE_ENV == 'production'
 
+console.log(process.env);
+
 // amazon
 var AWS = require('aws-sdk');
 var region = 'eu-west-1';
