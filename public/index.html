@@ -10,14 +10,12 @@
 <div class="cluster ng-hide" ng-show="instances.length">
     <div class="box instance left" ng-repeat="instance in instances track by instance.ecs.containerInstanceArn">
 
-        <h3>EC2 Instance</h3>
         <a class="small" target="_blank"
            ng-href="http://{{instance.ec2.PrivateIpAddress}}"
            ng-bind="instance.ec2.PrivateIpAddress"></a>
         <span ng-bind="instance.ec2.InstanceType"></span>
         <canvas class="cpu" cpu-data="instance.cpu"></canvas>
 
-        <h3>ECS Tasks</h3>
         <div class="task"
              ng-class="{green: task.lastStatus=='RUNNING', orange: task.lastStatus=='PENDING', red: task.lastStatus=='STOPPED'}"
              ng-repeat="task in instance.tasks track by task.taskArn">

@@ -5,13 +5,13 @@
 }
 
 html {
-    min-height: 100%;
+    height: 100%;
 }
 
 body {
-    min-height:100%;
-    color: #5D5E62;
-    background-color: #E8EBEB;
+    height:100%;
+    color: #fff;
+    background-color: #2e3338;
     font-family: DINMedium, sans-serif;
     font-size: 12px;
     line-height: 1.42857;
@@ -34,25 +34,21 @@ a {
 }
 
 .box {
-    background-color: #FDFDFD;
+    background-color: #fff;
     border-radius: 5px;
     max-height: 100%;
     overflow: hidden;
-    margin: 10px 0 10px 10px;
-}
-
-.box h3 {
-    margin:0;
+    margin: 0 5px 5px 0;
 }
 
 .box.instance {
     padding:5px;
-    width: 250px;
-    height: 450px;
+    width: 200px;
+    height: 300px;
 }
 
 .cpu {
-    width:250px;
+    width:200px;
     height:150px;
 }
 
@@ -72,7 +68,7 @@ a {
 
 .task.green {
     color: #fff;
-    background-color: #40BA4F;
+    background-color: #00f0c3;
 }
 
 .task.orange {
@@ -82,16 +78,15 @@ a {
 .container {
     color: #5D5E62;
     border-radius: 5px;
-    background-color: white;
 }
 
 .container-info {
-    background: url(../images/docker-bw-tiny.png) 5px 5px no-repeat;
-    padding-left: 40px;
 }
 
 .loading {
-    min-height: 16px;
-    min-width: 16px;
     background: url(../images/ajax-loader.gif) center no-repeat;
+}
+
+.cluster {
+    margin: 5px 0;
 }

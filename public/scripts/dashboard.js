@@ -2,9 +2,6 @@ angular
   .module('ecs-dashboard')
   .controller('dashboard', ['$scope', '$http', '$interval', '$q', function ($scope, $http, $interval, $q) {
 
-    $scope.instances = [];
-    $scope.loading = true;
-
     var logError = function (response) {
       console.log(response);
       $scope.loading = false;
