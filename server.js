@@ -1,7 +1,5 @@
 var production = process.env.NODE_ENV == 'production'
 
-console.log(process.env);
-
 // amazon
 var AWS = require('aws-sdk');
 var region = 'eu-west-1';
@@ -13,7 +11,6 @@ var EC2 = new AWS.EC2();
 var cloudwatch = new AWS.CloudWatch();
 
 // application
-var fs = require('fs');
 var jwt = require('express-jwt');
 var express = require('express');
 var requestify = require('requestify');
@@ -24,6 +21,7 @@ var app = express();
 app.use(compression());
 app.use(bodyParser.json());
 app.use(express.static(__dirname + (production ? '/dist' : '/public')));
+/*
 app.use(jwt({secret: fs.readFileSync('jwt-public.pem')}).unless({path: ['/favicon.ico']}));
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
@@ -32,6 +30,7 @@ app.use(function (err, req, res, next) {
     next();
   }
 });
+*/
 
 var error = function (res, err) {
   if (err) {
