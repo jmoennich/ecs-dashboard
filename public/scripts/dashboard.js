@@ -11,8 +11,15 @@ angular
       return $q.reject(response);
     };
 
-    $scope.updateEcsInstances = function () {
-      return $http.get('/ecs/instances').then(function (response) {
+    $scope.updateEcsClusters = function () {
+      return $http.get('/ecs/clusters')
+        .then(function (response) {
+          $scope.clusters = response.data;
+        });
+    };
+
+    $scope.updateEcsInstances = function (cluster) {
+      return $http.get('/ecs/clusters/' + cluster + '/instances').then(function (response) {
         var insts = response.data;
         $scope.loading = false;
         $scope.instances = insts.map(function (inst) {
@@ -43,8 +50,8 @@ angular
       }));
     };
 
-    $scope.updateTasks = function () {
-      return $http.get('/ecs/tasks').then(function (response) {
+    $scope.updateTasks = function (cluster) {
+      return $http.get('/ecs/clusters/' + cluster + '/tasks').then(function (response) {
         var tasks = response.data;
         $scope.instances.forEach(function (inst) {
           inst.tasks = [];
@@ -59,15 +66,24 @@ angular
       }, logError);
     };
 
-    $scope.updateEcsInstances()
-      .then(function () {
+    $scope.clusterChanged = function () {
+      $scope.loading = true;
+      $scope.instances = [];
+      $scope.updateEcsInstances($scope.cluster).then(function () {
+        $scope.loading = false;
         $scope.updateEc2Instances();
         $scope.updateEc2CpuUsages();
-        $scope.updateTasks();
-      })
-      .then(function () {
-        $interval($scope.updateTasks, 5000);
-        $interval($scope.updateEc2CpuUsage, 60000);
+        $scope.updateTasks($scope.cluster);
       });
+      /*
+       .then(function () {
+       $interval($scope.updateTasks, 5000);
+       $interval($scope.updateEc2CpuUsage, 60000);
+       });
+       */
+    };
+
+    // initial
+    $scope.updateEcsClusters();
 
   }]);

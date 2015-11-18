@@ -22,15 +22,15 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(express.static(__dirname + (production ? '/dist' : '/public')));
 /*
-app.use(jwt({secret: fs.readFileSync('jwt-public.pem')}).unless({path: ['/favicon.ico']}));
-app.use(function (err, req, res, next) {
-  if (err.name === 'UnauthorizedError') {
-    res.status(401).send('invalid token');
-  } else {
-    next();
-  }
-});
-*/
+ app.use(jwt({secret: fs.readFileSync('jwt-public.pem')}).unless({path: ['/favicon.ico']}));
+ app.use(function (err, req, res, next) {
+ if (err.name === 'UnauthorizedError') {
+ res.status(401).send('invalid token');
+ } else {
+ next();
+ }
+ });
+ */
 
 var error = function (res, err) {
   if (err) {
@@ -41,13 +41,18 @@ var error = function (res, err) {
 };
 
 app.post('/ec2/instances', function (req, res) {
-  EC2.describeInstances({InstanceIds: req.body.InstanceIds}, function (err, data) {
-    if (!error(res, err)) {
-      res.json(data.Reservations.map(function (reservation) {
-        return reservation.Instances[0];
-      }));
-    }
-  })
+  var ids = req.body.InstanceIds;
+  if (ids && ids.length > 0) {
+    EC2.describeInstances({InstanceIds: ids}, function (err, data) {
+      if (!error(res, err)) {
+        res.json(data.Reservations.map(function (reservation) {
+          return reservation.Instances[0];
+        }));
+      }
+    })
+  } else {
+    res.json([]);
+  }
 });
 
 app.get('/ec2/instances/:id/cpu', function (req, res) {
@@ -77,24 +82,34 @@ app.get('/ec2/instances/:id/cpu', function (req, res) {
   });
 });
 
-app.get('/ecs/instances', function (req, res) {
-  ECS.listContainerInstances({}, function (err, data) {
+app.get('/ecs/clusters', function (req, res) {
+  ECS.listClusters({}, function (err, data) {
+    res.json(data.clusterArns.map(function(clusterArn) {
+      var split = clusterArn.split('/');
+      return split.length > 1 ? split[1] : '';
+    }));
+  });
+});
+
+app.get('/ecs/clusters/:cluster/instances', function (req, res) {
+  ECS.listContainerInstances({cluster: req.params.cluster}, function (err, data) {
     if (!error(res, err) && data.containerInstanceArns.length) {
-      ECS.describeContainerInstances({containerInstances: data.containerInstanceArns}, function (err, descCI) {
-        if (!error(res, err)) {
-          res.json(descCI.containerInstances);
-        }
-      });
+      ECS.describeContainerInstances({cluster: req.params.cluster, containerInstances: data.containerInstanceArns},
+        function (err, descCI) {
+          if (!error(res, err)) {
+            res.json(descCI.containerInstances);
+          }
+        });
     } else {
       res.json([]);
     }
   });
 });
 
-app.get('/ecs/tasks', function (req, res) {
-  ECS.listTasks(function (err, data) {
+app.get('/ecs/clusters/:cluster/tasks', function (req, res) {
+  ECS.listTasks({cluster: req.params.cluster}, function (err, data) {
     if (!error(res, err) && data.taskArns.length) {
-      ECS.describeTasks({tasks: data.taskArns}, function (err, data) {
+      ECS.describeTasks({cluster: req.params.cluster, tasks: data.taskArns}, function (err, data) {
         res.json(data.tasks);
       });
     } else {

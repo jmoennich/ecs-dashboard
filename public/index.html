@@ -5,13 +5,15 @@
 </head>
 <body ng-app="ecs-dashboard" ng-controller="dashboard" ng-strict-di ng-class="{loading: loading}">
 
+<select ng-model="cluster" ng-options="c for c in clusters | orderBy" ng-change="clusterChanged()"></select>
+
 <div class="cluster ng-hide" ng-show="instances.length">
     <div class="box instance left" ng-repeat="instance in instances track by instance.ecs.containerInstanceArn">
 
         <h3>EC2 Instance</h3>
         <a class="small" target="_blank"
-           ng-href="http://{{instance.ec2.PublicDnsName}}"
-           ng-bind="instance.ec2.PublicDnsName"></a>
+           ng-href="http://{{instance.ec2.PrivateIpAddress}}"
+           ng-bind="instance.ec2.PrivateIpAddress"></a>
         <span ng-bind="instance.ec2.InstanceType"></span>
         <canvas class="cpu" cpu-data="instance.cpu"></canvas>
 
