@@ -13,7 +13,6 @@
            ng-href="http://{{instance.ec2.PublicDnsName}}"
            ng-bind="instance.ec2.PublicDnsName"></a>
         <span ng-bind="instance.ec2.InstanceType"></span>
-        <span ng-bind-template="${{ prices[instance.ec2.InstanceType] }}/h"></span>
         <canvas class="cpu" cpu-data="instance.cpu"></canvas>
 
         <h3>ECS Tasks</h3>

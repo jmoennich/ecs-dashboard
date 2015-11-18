@@ -40,37 +40,6 @@ var error = function (res, err) {
   return !!err;
 };
 
-app.get('/ec2/prices', function (req, res) {
-  requestify.get('http://a0.awsstatic.com/pricing/1/ec2/linux-od.min.js')
-    .then(
-    function (response) {
-      var result, prices;
-      var callback = function (val) {
-        prices = val;
-      };
-      eval(response.getBody());
-      prices.config.regions.forEach(function (priceRegion) {
-        if (priceRegion.region == region) {
-          result = {};
-          priceRegion.instanceTypes.forEach(function (instanceType) {
-            instanceType.sizes.forEach(function (size) {
-              result[size.size] = size.valueColumns[0].prices.USD;
-            });
-          });
-        }
-      });
-      if (result) {
-        res.json(result);
-      } else {
-        res.status(404).end();
-      }
-    },
-    function (response) {
-      res.status(response.statusCode);
-    }
-  );
-});
-
 app.post('/ec2/instances', function (req, res) {
   EC2.describeInstances({InstanceIds: req.body.InstanceIds}, function (err, data) {
     if (!error(res, err)) {

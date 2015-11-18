@@ -59,17 +59,10 @@ angular
       }, logError);
     };
 
-    $scope.updateEc2Prices = function () {
-      return $http.get('/ec2/prices').then(function (response) {
-        $scope.prices = response.data;
-      });
-    };
-
     $scope.updateEcsInstances()
       .then(function () {
         $scope.updateEc2Instances();
         $scope.updateEc2CpuUsages();
-        $scope.updateEc2Prices();
         $scope.updateTasks();
       })
       .then(function () {
