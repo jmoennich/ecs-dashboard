@@ -33,6 +33,10 @@ a {
     float: left;
 }
 
+.right {
+    float: right;
+}
+
 .box {
     background-color: #fff;
     border-radius: 5px;

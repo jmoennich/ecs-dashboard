@@ -120,6 +120,7 @@ app.get('/ecs/clusters/:cluster/tasks', function (req, res) {
 
 app.get('/ecs/taskDefinition', function (req, res) {
   ECS.describeTaskDefinition({taskDefinition: req.query.arn}, function (err, data) {
+    console.log(req.query.arn);
     res.json(data);
   })
 });

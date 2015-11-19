@@ -21,7 +21,8 @@
              ng-repeat="task in instance.tasks track by task.taskArn">
             <div class="container" ng-repeat="container in task.containers track by container.containerArn">
                 <div class="container-info">
-                    <span ng-bind="container.name"></span>
+                    <span class="left" ng-bind="container.name"></span>
+                    <span class="right">{{container.containerDefinition.memory}} MB</span>
                     <div class="network-binding" ng-repeat="binding in container.networkBindings">
                         <span ng-bind="binding.containerPort"></span>:<span ng-bind="binding.hostPort"></span>
                     </div>

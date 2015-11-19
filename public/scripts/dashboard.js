@@ -54,6 +54,16 @@ angular
           inst.tasks = [];
         });
         tasks.forEach(function (task) {
+          $http.get('/ecs/taskDefinition', {params: {arn: task.taskDefinitionArn}}).then(function (response) {
+            response.data.taskDefinition.containerDefinitions.forEach(function (containerDefinition) {
+              task.containers.forEach(function (container) {
+                if (container.name === containerDefinition.name) {
+                  container.containerDefinition = containerDefinition;
+                }
+              });
+            });
+            task.definition = response.data;
+          });
           $scope.instances.forEach(function (inst) {
             if (task.containerInstanceArn == inst.ecs.containerInstanceArn) {
               inst.tasks.push(task);
