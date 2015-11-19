@@ -20,7 +20,13 @@ angular
         var insts = response.data;
         $scope.loading = false;
         $scope.instances = insts.map(function (inst) {
-          return {ecs: inst}
+          var instance = {ecs: inst};
+          inst.remainingResources.forEach(function (remaining) {
+            if (remaining.name === 'MEMORY') {
+              instance.remainingMemory = remaining.integerValue;
+            }
+          });
+          return instance
         });
       }, logError);
     };

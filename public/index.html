@@ -10,9 +10,10 @@
 <div class="cluster ng-hide" ng-show="instances.length">
     <div class="box instance left" ng-repeat="instance in instances track by instance.ecs.containerInstanceArn">
 
-        <a class="small" target="_blank"
+        <a target="_blank"
            ng-href="http://{{instance.ec2.PrivateIpAddress}}"
            ng-bind="instance.ec2.PrivateIpAddress"></a>
+        <br>
         <span ng-bind="instance.ec2.InstanceType"></span>
         <canvas class="cpu" cpu-data="instance.cpu"></canvas>
 
@@ -23,12 +24,14 @@
                 <div class="container-info">
                     <span class="left" ng-bind="container.name"></span>
                     <span class="right">{{container.containerDefinition.memory}} MB</span>
-                    <div class="network-binding" ng-repeat="binding in container.networkBindings">
+                    <br>
+                    <div ng-repeat="binding in container.networkBindings">
                         <span ng-bind="binding.containerPort"></span>:<span ng-bind="binding.hostPort"></span>
                     </div>
                 </div>
             </div>
         </div>
+        <span class="right">available: {{instance.remainingMemory}} MB</span>
     </div>
 </div>
 

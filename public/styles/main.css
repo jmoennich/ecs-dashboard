@@ -10,7 +10,6 @@ html {
 
 body {
     height:100%;
-    color: #fff;
     background-color: #2e3338;
     font-family: DINMedium, sans-serif;
     font-size: 12px;
@@ -23,10 +22,6 @@ a {
 
 .ng-hide {
     display: none;
-}
-
-.small {
-    font-size: 14px;
 }
 
 .left {

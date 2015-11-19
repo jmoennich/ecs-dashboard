@@ -18,7 +18,7 @@ angular.module('ecs-dashboard')
             canvas.width = canvas.height * (canvas.clientWidth / canvas.clientHeight);
             var width = canvas.offsetWidth;
             var height = canvas.offsetHeight;
-            var ctx = canvas.getContext('2d');
+            var ctx = canvas.getContext('2d', {alpha: false});
             var peek = 0;
             var fx = Math.ceil(width / points.length);
             var fy = height / 100;
@@ -36,7 +36,7 @@ angular.module('ecs-dashboard')
             ctx.strokeStyle = '#000';
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.stroke(path);
-            ctx.font = "14px DINMedium, sans-serif";
+            ctx.font = "12px DINMedium, sans-serif";
             ctx.fillText('CPU Peek: ' + peek + '%', 0, 14);
           }
         });
